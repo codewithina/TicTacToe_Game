@@ -1,15 +1,32 @@
+import java.util.Scanner;
+
 public class Game {
+    private Scanner sc = new Scanner(System.in);
     private Player player1;
     private Player player2;
     private Board board;
 
-    public Game(Player player1, Player player2, Board board){
-        this.player1=player1;
-        this.player2=player2;
-        this.board=board;
+    public Game() {
+
     }
 
+    public void initGame(){
+        System.out.println("°°°°°°°°° N E W   G A M E °°°°°°°°°");
+        System.out.println(" ENTER the name of player 1: ");
+        String name = sc.nextLine();
+        this.player1 = new Player(name, 'O');
+
+        System.out.println(" ENTER the name of player 2: ");
+        String name2 = sc.nextLine();
+        this.player2 = new Player(name2, 'X');
+
+        System.out.println(" START by pressing any button!");
+        sc.nextLine();
+    }
     public void runGame(){
+        Board board = new Board();
+        System.out.println("Nu kör vi, " + player1.getName() + " startar.");
+        board.writeOutBoard();
         //p1 place your stone
         //read and write out placement
         //p2 place your stone
@@ -24,6 +41,10 @@ public class Game {
         //     4 5 6
         //     7 8 9
         // placement 1, 5, 9 in a row is a win
+    }
+
+    public void takeTurns(){
+
     }
 
 }
