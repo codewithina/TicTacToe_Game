@@ -16,8 +16,6 @@ public class Main {
             switch (choice) {
                 case 1:
                     Game game = new Game();
-                    game.initGame();
-                    game.runGame();
                     break;
                 case 2:
                     readRules();

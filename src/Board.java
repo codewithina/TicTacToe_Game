@@ -1,32 +1,37 @@
 public class Board {
-    char[][] threeRowBoard = new char[3][3];
+    private int columns;
+    private int rows;
+    private char[][] dynamicBoard;
 
-/*  IF THE PLAYER CAN CHOOSE BOARD, open this up
-
-    char[][] fourRowBoard = new char[4][4];
-    char[][] fiveRowBoard = new char[5][5];
-
- */
-
-    public Board(){
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                threeRowBoard[i][j] = ' ';
+    public Board(int rows, int columns) {
+        dynamicBoard = new char[rows][columns];
+        this.rows = rows;
+        this.columns = columns;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                dynamicBoard[i][j] = ' ';
             }
         }
     }
 
-    public void writeOutBoard(){
+    public void writeOutBoard() {
+        String line = "------".repeat(rows);
         int count = 1;
-        System.out.println("   A     B     C   ");
-        for (int i = 0; i < 3; i++) {
-            System.out.println("-------------------");
-            for (int j = 0; j < 3; j++) {
-                System.out.print("|" /*+ count++*/ + "  " +  threeRowBoard[i][j] + "  ");
+
+        //Build more letters depending on size of board
+        StringBuilder letters = new StringBuilder("   ");
+        for (int i = 0; i < rows; i++) {
+            letters.append((char) ('A' + i)).append("     ");
+        }
+        System.out.println(letters.toString());
+
+        for (int i = 0; i < rows; i++) {
+            System.out.println(line);
+            for (int j = 0; j < columns; j++) {
+                System.out.print("|" + "  " + dynamicBoard[i][j] + "  ");
             }
             System.out.println("|  " + count++);
         }
-        System.out.println("-------------------");
-
+        System.out.println(line);
     }
 }
