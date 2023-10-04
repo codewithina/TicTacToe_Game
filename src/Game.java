@@ -25,8 +25,9 @@ public class Game {
     }
     public void runGame(){
         Board board = new Board();
-        System.out.println("Nu kör vi, " + player1.getName() + " startar.");
+        System.out.println("Let's go, " + player1.getName() + " is the first one out.");
         board.writeOutBoard();
+        System.out.println("Where do you want to place your mark?");
         //p1 place your stone
         //read and write out placement
         //p2 place your stone
@@ -35,6 +36,9 @@ public class Game {
         //stop after 3 rounds each, or continue by "moving" your stone
     }
 
+    public void placeMark(){
+
+    }
     public void checkWinner(){
         //check if saved input fr. user is placed in a row
         // ex. 1 2 3

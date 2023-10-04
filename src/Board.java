@@ -17,12 +17,14 @@ public class Board {
     }
 
     public void writeOutBoard(){
+        int count = 1;
+        System.out.println("   A     B     C   ");
         for (int i = 0; i < 3; i++) {
             System.out.println("-------------------");
             for (int j = 0; j < 3; j++) {
-                System.out.print("|  " + threeRowBoard[i][j] + "  ");
+                System.out.print("|" /*+ count++*/ + "  " +  threeRowBoard[i][j] + "  ");
             }
-            System.out.println("|");
+            System.out.println("|  " + count++);
         }
         System.out.println("-------------------");
 
