@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Game {
@@ -5,15 +6,19 @@ public class Game {
     private Player player1 = new Player('o');
     private Player player2 = new Player('x');
     private Player currentPlayer = player1;
+    private ArrayList<Player> players = new ArrayList<>();
     private Board board;
 
     public Game() {
+        players.add(player1);
+        players.add(player2);
         initGame();
         runGame();
     }
 
     public void initGame() {
         System.out.println("°°°°°°°°° N E W   G A M E °°°°°°°°°");
+
         System.out.println(" ENTER the name of player 1: ");
         String name = sc.nextLine();
         this.player1.setName(name);
@@ -31,8 +36,8 @@ public class Game {
     }
 
     public void runGame() {
-        System.out.println("Let's go, good luck with the game!\n");
-        while (!gameOver()) {
+        System.out.println(" Let's go " + player1 + " & " + player2 + "! May the best player win :) \n");
+        while (!gameOver() && checkWinner() == null) {
             board.writeOutBoard();
             System.out.println(currentPlayer.getName() + ", ENTER your move." +
                     "\nWrite which column followed by row, ex. A1:");
@@ -40,10 +45,13 @@ public class Game {
             int chosenColumn = (int) (Character.toUpperCase(chosenPlacement.charAt(0)) - 65);
             int chosenRow = Character.getNumericValue(chosenPlacement.charAt(1) - 1);
             board.setBoardValue(chosenRow, chosenColumn, currentPlayer.getSymbol());
+            if (checkWinner() != null) {
+                board.writeOutBoard();
+                System.out.println("CONGRATULATIONS " + checkWinner() + ", you won this round!");
+            }
             switchPlayer();
         }
-        System.out.println("Game over, " + currentPlayer.getName() + " won!" );
-
+        System.out.println(" - Game over! - ");
 
         //1. check if the chosen box is free
         //2. checkWinner();
@@ -55,16 +63,50 @@ public class Game {
         //stop after 3 rounds each, or continue by "moving" your stone
     }
 
-    public void makeMove() {
+    public Player checkWinner() {
 
-    }
-
-    public void checkWinner() {
-        //loop through all winning combinations
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
+        for (Player player : players) {
+            // Check if there's a complete row == winner
+            for (int row = 0; row < board.getRows(); row++) {
+                int countSameSymbols = 0;
+                for (int col = 0; col < board.getColumns(); col++) {
+                    if (board.getDynamicBoard()[row][col] == player.getSymbol()) {
+                        countSameSymbols++;
+                    }
+                }
+                if (countSameSymbols == board.getColumns()) {
+                    return player;
+                }
             }
+
+            // Check if there's a complete col == winner
+            for (int col = 0; col < board.getColumns(); col++) {
+                int countSameSymbols = 0;
+                for (int row = 0; row < board.getRows(); row++) {
+                    if (board.getDynamicBoard()[row][col] == player.getSymbol()) {
+                        countSameSymbols++;
+                    }
+                }
+                if (countSameSymbols == board.getRows()) {
+                    return player;
+                }
+            }
+
+            // Check if there's a complete diagonal == winner
+//            for (int i = 0; i < board.getColumns(); i++) {
+//                int row = 0;
+//                int col = 0;
+//                int countSameSymbols = 0;
+//                    if (board.getDynamicBoard()[row][col] == player.getSymbol()) {
+//                        countSameSymbols++;
+//                    }
+//                if (countSameSymbols == board.getRows()){
+//                    return player;
+//                }
+//            }
+
         }
+        return null;
     }
 
     public void switchPlayer() {
@@ -76,10 +118,9 @@ public class Game {
     }
 
     public boolean gameOver() {
-
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                if (board.getDynamicBoard()[i][j] == (' ')){
+        for (int i = 0; i < board.getRows(); i++) {
+            for (int j = 0; j < board.getColumns(); j++) {
+                if (board.getDynamicBoard()[i][j] == (' ')) {
                     return false;
                 }
             }

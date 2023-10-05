@@ -1,6 +1,7 @@
 public class Player {
     private String name;
     private char symbol;
+    private int roundsWon;
 
     public Player (String name, char symbol){
         this.name=name;
@@ -20,5 +21,10 @@ public class Player {
 
     public char getSymbol() {
         return symbol;
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
     }
 }

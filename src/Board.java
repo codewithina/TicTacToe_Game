@@ -42,4 +42,12 @@ public class Board {
     public char[][] getDynamicBoard() {
         return dynamicBoard;
     }
+
+    public int getColumns() {
+        return columns;
+    }
+
+    public int getRows() {
+        return rows;
+    }
 }

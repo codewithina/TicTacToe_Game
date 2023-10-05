@@ -9,8 +9,9 @@ public class Main {
                 °°°°°° T I C   T A C   T O E °°°°°°
                  Welcome to a game of tic tac toe.
                           - Good luck! -""");
-        while(true) {
-            menuChoices();
+        menuChoices();
+
+        while (true) {
             int choice = sc.nextInt();
             sc.nextLine();
             switch (choice) {
@@ -39,10 +40,11 @@ public class Main {
                  be up, down, across, or diagonally.
                  When all 9 squares are full, the
                  game is over and it's a draw.
-                
+                                
                  - Press any button to continue -""");
     }
-    private static void menuChoices(){
+
+    private static void menuChoices() {
         System.out.println("\n Please enter your choice: \n" +
                 " [1] Start new game \n" +
                 " [2] Read the rules \n" +
