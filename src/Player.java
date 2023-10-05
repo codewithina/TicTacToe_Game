@@ -6,6 +6,9 @@ public class Player {
         this.name=name;
         this.symbol=symbol;
     }
+    public Player (char symbol){
+        this.symbol=symbol;
+    }
 
     public String getName() {
         return name;
