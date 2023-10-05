@@ -32,17 +32,17 @@ public class Game {
 
     public void runGame() {
         System.out.println("Let's go, good luck with the game!\n");
-        while (true) {
+        while (!gameOver()) {
             board.writeOutBoard();
             System.out.println(currentPlayer.getName() + ", ENTER your move." +
                     "\nWrite which column followed by row, ex. A1:");
             String chosenPlacement = sc.nextLine();
-            //make sure column is uppercase character and then convert to ASCII-value and convert to int
             int chosenColumn = (int) (Character.toUpperCase(chosenPlacement.charAt(0)) - 65);
             int chosenRow = Character.getNumericValue(chosenPlacement.charAt(1) - 1);
             board.setBoardValue(chosenRow, chosenColumn, currentPlayer.getSymbol());
             switchPlayer();
         }
+        System.out.println("Game over, " + currentPlayer.getName() + " won!" );
 
 
         //1. check if the chosen box is free
@@ -63,7 +63,6 @@ public class Game {
         //loop through all winning combinations
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-
             }
         }
     }
@@ -77,7 +76,15 @@ public class Game {
     }
 
     public boolean gameOver() {
-        return false;
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (board.getDynamicBoard()[i][j] == (' ')){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
 }

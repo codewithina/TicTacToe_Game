@@ -38,4 +38,8 @@ public class Board {
     public void setBoardValue(int row, int column, char value) {
         this.dynamicBoard[row][column] = value;
     }
+
+    public char[][] getDynamicBoard() {
+        return dynamicBoard;
+    }
 }
