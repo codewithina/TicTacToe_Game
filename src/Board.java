@@ -21,6 +21,7 @@ public class Board {
         //Build more letters depending on size of board
         StringBuilder letters = new StringBuilder("   ");
         for (int i = 0; i < rows; i++) {
+            //'A'+i = 65 at first and therefor writes out A
             letters.append((char) ('A' + i)).append("     ");
         }
         System.out.println(letters.toString());
@@ -33,5 +34,8 @@ public class Board {
             System.out.println("|  " + count++);
         }
         System.out.println(line);
+    }
+    public void setBoardValue(int row, int column, char value) {
+        this.dynamicBoard[row][column] = value;
     }
 }

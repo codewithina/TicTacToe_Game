@@ -4,6 +4,7 @@ public class Game {
     private Scanner sc = new Scanner(System.in);
     private Player player1;
     private Player player2;
+    private Player currentPlayer;
     private Board board;
 
     public Game() {
@@ -32,8 +33,19 @@ public class Game {
     public void runGame() {
         System.out.println("Let's go, " + player1.getName() + " is the first one out.");
         board.writeOutBoard();
-        System.out.println("Where do you want to place your mark?");
+        System.out.println("Where do you want to place your mark? " +
+                "\nWrite which column followed by row, ex. A1:");
+        String chosenPlacement = sc.nextLine();
+        //make sure column is uppercase character and then convert to ASCII-value and convert to int
+        int chosenColumn = (int) (Character.toUpperCase(chosenPlacement.charAt(0)) - 65);
+        int chosenRow = Character.getNumericValue(chosenPlacement.charAt(1)-1);
+        System.out.println(chosenColumn);
+        System.out.println(chosenRow);
+        board.setBoardValue(chosenRow, chosenColumn, player1.getSymbol());
+        board.writeOutBoard();
+
         //p1 place your stone
+        //check if the chosen box is free
         //checkWinner();
         //read and write out placement
         //p2 place your stone
@@ -43,6 +55,7 @@ public class Game {
     }
 
     public void placeMark(Player player) {
+
     }
 
     public void checkWinner() {
