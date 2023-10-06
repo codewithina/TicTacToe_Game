@@ -10,7 +10,6 @@ public class Main {
                  Welcome to a game of tic tac toe.
                           - Good luck! -""");
         menuChoices();
-
         while (true) {
             int choice = sc.nextInt();
             sc.nextLine();

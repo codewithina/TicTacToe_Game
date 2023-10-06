@@ -19,39 +19,43 @@ public class Game {
     public void initGame() {
         System.out.println("°°°°°°°°° N E W   G A M E °°°°°°°°°");
 
-        System.out.println(" ENTER the name of player 1: ");
+        System.out.println("ENTER the name of player 1: ");
         String name = sc.nextLine();
-        this.player1.setName(name);
+        player1.setName(name);
 
-        System.out.println(" ENTER the name of player 2: ");
+        System.out.println("ENTER the name of player 2: ");
         String name2 = sc.nextLine();
-        this.player2.setName(name2);
+        player2.setName(name2);
 
-        System.out.println(" How many rows & columns do you want, 3, 4 or 5? ");
+        System.out.println("How many rows & columns do you want, 3, 4 or 5? ");
         int sizeOfBoard = sc.nextInt();
-        this.board = new Board(sizeOfBoard, sizeOfBoard);
+        board = new Board(sizeOfBoard, sizeOfBoard);
         sc.nextLine();
-        System.out.println(" Start by pressing ENTER!");
+        System.out.println("When making a move: remember to write which column followed by row, ex. A1.\n" +
+                           "Let's go " + player1 + " & " + player2 + "! May the best player win :) \n" +
+                           "Start by pressing ENTER!");
         sc.nextLine();
     }
 
     public void runGame() {
-        System.out.println(" Let's go " + player1 + " & " + player2 + "! May the best player win :) \n");
+        System.out.println(" Here's your board:\n");
         while (!gameOver() && checkWinner() == null) {
             board.writeOutBoard();
-            System.out.println(currentPlayer.getName() + ", ENTER your move." +
-                    "\nWrite which column followed by row, ex. A1:");
+            System.out.println("\n" + currentPlayer.getName() + ", ENTER your move:");
             String chosenPlacement = sc.nextLine();
             int chosenColumn = (int) (Character.toUpperCase(chosenPlacement.charAt(0)) - 65);
             int chosenRow = Character.getNumericValue(chosenPlacement.charAt(1) - 1);
-            if(isValidMove(chosenRow, chosenColumn)) {
+
+            // If the chosen cell is empty, put players symbol on board
+            if (board.isCellEmpty(chosenRow, chosenColumn)) {
                 board.setBoardValue(chosenRow, chosenColumn, currentPlayer.getSymbol());
+                // If symbol is set check if there's any win before continuing
                 if (checkWinner() != null) {
                     board.writeOutBoard();
                     System.out.println("CONGRATULATIONS " + checkWinner() + ", you won this round!");
                 }
                 switchPlayer();
-            } else{
+            } else {
                 System.out.println(invalidInput());
             }
         }
@@ -106,10 +110,12 @@ public class Game {
             currentPlayer = player1;
         }
     }
+
     public String invalidInput() {
-        return "Invalid input, try again.";
+        return "Invalid input. Please try again.\n";
     }
-    public boolean isValidMove(int row, int col){
+
+    public boolean isValidMove(int row, int col) {
         return board.isCellEmpty(row, col);
     }
 
