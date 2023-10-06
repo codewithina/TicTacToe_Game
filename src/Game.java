@@ -64,47 +64,42 @@ public class Game {
     }
 
     public Player checkWinner() {
-
+        // Check if there's a winning combo of symbols for all players in the game
         for (Player player : players) {
-            // Check if there's a complete row == winner
-            for (int row = 0; row < board.getRows(); row++) {
-                int countSameSymbols = 0;
-                for (int col = 0; col < board.getColumns(); col++) {
-                    if (board.getDynamicBoard()[row][col] == player.getSymbol()) {
-                        countSameSymbols++;
+            char playerSymbol = player.getSymbol();
+            int boardSize = board.getRows();
+
+            // Check winning combos in rows and columns
+            for (int row = 0; row < boardSize; row++) {
+                int countRow = 0;
+                int countCol = 0;
+                for (int col = 0; col < boardSize; col++) {
+                    if (board.getDynamicBoard()[row][col] == playerSymbol) {
+                        countRow++;
                     }
-                }
-                if (countSameSymbols == board.getColumns()) {
-                    return player;
+                    if (board.getDynamicBoard()[col][row] == playerSymbol) {
+                        countCol++;
+                    }
+                    if (countRow == boardSize || countCol == boardSize) {
+                        return player;
+                    }
                 }
             }
 
-            // Check if there's a complete col == winner
-            for (int col = 0; col < board.getColumns(); col++) {
-                int countSameSymbols = 0;
-                for (int row = 0; row < board.getRows(); row++) {
-                    if (board.getDynamicBoard()[row][col] == player.getSymbol()) {
-                        countSameSymbols++;
-                    }
+            // Check winning combos in diagonals
+            int countDia1 = 0;
+            int countDia2 = 0;
+            for (int i = 0; i < boardSize; i++) {
+                if (board.getDynamicBoard()[i][i] == playerSymbol) {
+                    countDia1++;
                 }
-                if (countSameSymbols == board.getRows()) {
+                if (board.getDynamicBoard()[i][boardSize - 1 - i] == playerSymbol) {
+                    countDia2++;
+                }
+                if (countDia1 == boardSize || countDia2 == boardSize) {
                     return player;
                 }
             }
-
-            // Check if there's a complete diagonal == winner
-//            for (int i = 0; i < board.getColumns(); i++) {
-//                int row = 0;
-//                int col = 0;
-//                int countSameSymbols = 0;
-//                    if (board.getDynamicBoard()[row][col] == player.getSymbol()) {
-//                        countSameSymbols++;
-//                    }
-//                if (countSameSymbols == board.getRows()){
-//                    return player;
-//                }
-//            }
-
         }
         return null;
     }
