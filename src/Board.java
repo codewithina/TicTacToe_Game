@@ -35,6 +35,11 @@ public class Board {
         }
         System.out.println(line);
     }
+    public boolean isCellEmpty(int i, int j){
+        // Check if a specific cell is available for placing symbol
+        return dynamicBoard[i][j] == (' ');
+    }
+
     public void setBoardValue(int row, int column, char value) {
         this.dynamicBoard[row][column] = value;
     }

@@ -44,23 +44,18 @@ public class Game {
             String chosenPlacement = sc.nextLine();
             int chosenColumn = (int) (Character.toUpperCase(chosenPlacement.charAt(0)) - 65);
             int chosenRow = Character.getNumericValue(chosenPlacement.charAt(1) - 1);
-            board.setBoardValue(chosenRow, chosenColumn, currentPlayer.getSymbol());
-            if (checkWinner() != null) {
-                board.writeOutBoard();
-                System.out.println("CONGRATULATIONS " + checkWinner() + ", you won this round!");
+            if(isValidMove(chosenRow, chosenColumn)) {
+                board.setBoardValue(chosenRow, chosenColumn, currentPlayer.getSymbol());
+                if (checkWinner() != null) {
+                    board.writeOutBoard();
+                    System.out.println("CONGRATULATIONS " + checkWinner() + ", you won this round!");
+                }
+                switchPlayer();
+            } else{
+                System.out.println(invalidInput());
             }
-            switchPlayer();
         }
         System.out.println(" - Game over! - ");
-
-        //1. check if the chosen box is free
-        //2. checkWinner();
-        //3. read and write out placement
-        //4. gameOver or new loop
-        //p2 place your stone
-        //when a number is used already?
-        //if invalid input (null or wrong sign)
-        //stop after 3 rounds each, or continue by "moving" your stone
     }
 
     public Player checkWinner() {
@@ -111,6 +106,12 @@ public class Game {
             currentPlayer = player1;
         }
     }
+    public String invalidInput() {
+        return "Invalid input, try again.";
+    }
+    public boolean isValidMove(int row, int col){
+        return board.isCellEmpty(row, col);
+    }
 
     public boolean gameOver() {
         for (int i = 0; i < board.getRows(); i++) {
@@ -124,3 +125,11 @@ public class Game {
     }
 
 }
+
+
+// TO DO:
+// Check if the chosen box is free !!!!!!
+// If invalid input return try again
+// Continue with more rounds after ended game, or start new game?
+// Check players winning scores
+
