@@ -7,14 +7,18 @@ public class Board {
         dynamicBoard = new char[rows][columns];
         this.rows = rows;
         this.columns = columns;
+        defaultCellValue();
+        layout();
+    }
+
+    public void defaultCellValue(){
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
                 dynamicBoard[i][j] = ' ';
             }
         }
     }
-
-    public void writeOutBoard() {
+    public void layout() {
         String line = "------".repeat(rows);
         int count = 1;
 
@@ -41,7 +45,7 @@ public class Board {
         return dynamicBoard[i][j] == (' ');
     }
 
-    public void setBoardValue(int row, int column, char value) {
+    public void setCellValue(int row, int column, char value) {
         this.dynamicBoard[row][column] = value;
     }
 

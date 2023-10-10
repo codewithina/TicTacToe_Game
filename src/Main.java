@@ -8,7 +8,7 @@ public class Main {
         System.out.println("""
                 °°°°°° T I C   T A C   T O E °°°°°°
                  Welcome to a game of tic tac toe.
-                          - Good luck! -""");
+                          - Good luck! -1""");
         menuChoices();
         while (true) {
             int choice = sc.nextInt();

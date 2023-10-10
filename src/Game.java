@@ -10,13 +10,18 @@ public class Game {
     private Board board;
 
     public Game() {
-        players.add(player1);
-        players.add(player2);
         initGame();
-        runGame();
+        do {
+            runGame();
+            resetGame();
+        } while (playAgain());  // Waits for two ENTER, fix it!!
     }
 
+    // Starts a new game and setting names to players and choosing size of board
     public void initGame() {
+        players.add(player1);
+        players.add(player2);
+
         System.out.println("°°°°°°°°° N E W   G A M E °°°°°°°°°");
 
         System.out.println("ENTER the name of player 1: ");
@@ -31,27 +36,29 @@ public class Game {
         int sizeOfBoard = sc.nextInt();
         board = new Board(sizeOfBoard, sizeOfBoard);
         sc.nextLine();
-        System.out.println("When making a move: remember to write which column followed by row, ex. A1.\n" +
-                           "Let's go " + player1 + " & " + player2 + "! May the best player win :) \n" +
-                           "Start by pressing ENTER!");
-        sc.nextLine();
+        System.out.println("""
+                Perfect, here's your board.
+                When making a move: remember to write which column followed by row, ex. A1.
+                
+                Start by pressing ENTER!""");
     }
 
     public void runGame() {
-        System.out.println(" Here's your board:\n");
+        sc.nextLine();
+        System.out.println("Let's go " + player1 + " & " + player2 + "! May the best player win :) \n");
         while (!gameOver() && checkWinner() == null) {
-            board.writeOutBoard();
-            System.out.println("\n" + currentPlayer.getName() + ", ENTER your move:");
+            writeOutBoard();
+            // Make methods for makeMove and implement here
+            System.out.println(currentPlayer.getName() + ", ENTER your move:");
             String chosenPlacement = sc.nextLine();
             int chosenColumn = (int) (Character.toUpperCase(chosenPlacement.charAt(0)) - 65);
             int chosenRow = Character.getNumericValue(chosenPlacement.charAt(1) - 1);
-
-            // If the chosen cell is empty, put players symbol on board
-            if (board.isCellEmpty(chosenRow, chosenColumn)) {
-                board.setBoardValue(chosenRow, chosenColumn, currentPlayer.getSymbol());
+            // If the chosen cell is empty, put players symbol in it
+            if (isValidMove(chosenRow, chosenColumn)) {
+                board.setCellValue(chosenRow, chosenColumn, currentPlayer.getSymbol());
                 // If symbol is set check if there's any win before continuing
                 if (checkWinner() != null) {
-                    board.writeOutBoard();
+                    writeOutBoard();
                     System.out.println("CONGRATULATIONS " + checkWinner() + ", you won this round!");
                 }
                 switchPlayer();
@@ -110,6 +117,26 @@ public class Game {
             currentPlayer = player1;
         }
     }
+    public void writeOutBoard(){
+        board.layout();
+    }
+
+    public boolean playAgain(){
+        System.out.println("Do you want to play another round? yes/no");
+        String userInput = sc.nextLine();
+        return userInput.equalsIgnoreCase("yes");
+    }
+
+    public void playerMakeMove(){
+        System.out.println(currentPlayer.getName() + ", ENTER your move:");
+        String chosenPlacement = sc.nextLine();
+        int chosenColumn = (int) (Character.toUpperCase(chosenPlacement.charAt(0)) - 65);
+        int chosenRow = Character.getNumericValue(chosenPlacement.charAt(1) - 1);
+    }
+
+    public void resetGame(){
+        board.defaultCellValue();
+    }
 
     public String invalidInput() {
         return "Invalid input. Please try again.\n";
@@ -134,8 +161,14 @@ public class Game {
 
 
 // TO DO:
-// Check if the chosen box is free !!!!!!
+// Write out a tie and not just game over when the board is full !!!!
+// Spelet ska räkna hur många vinster varje spelare har
 // If invalid input return try again
-// Continue with more rounds after ended game, or start new game?
 // Check players winning scores
+
+//En till av nedanstående
+//****** Spelet ska fråga om spelarnas namn och vid varje drag skriva ut vems tur det är
+//* Spelet ska räkna hur många vinster varje spelare har
+//* Indata från användaren skall korrekt felhanteras så spelet varken kraschar eller att andra fel uppstår
+//****** Under projektet har Git använts kontinuerlig och versionshistorik finns tillgänglig i den slutgiltiga inlämningen
 
