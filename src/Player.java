@@ -1,7 +1,7 @@
 public class Player {
     private String name;
     private char symbol;
-    private int roundsWon;
+    private int roundsWon = 0;
 
     public Player(String name, char symbol) {
         this.name = name;
@@ -22,6 +22,13 @@ public class Player {
 
     public char getSymbol() {
         return symbol;
+    }
+    public void setRoundsWon(int roundsWon) {
+        this.roundsWon = roundsWon;
+    }
+
+    public int getRoundsWon() {
+        return roundsWon;
     }
 
     @Override

@@ -60,6 +60,7 @@ public class Game {
                 if (checkWinner() != null) {
                     writeOutBoard();
                     System.out.println("CONGRATULATIONS " + checkWinner() + ", you won this round!");
+                    increaseRoundsWon(checkWinner().getRoundsWon());
                 }
                 if (gameOver() && checkWinner() == null) {
                     writeOutBoard();
@@ -127,7 +128,8 @@ public class Game {
     }
 
     public boolean playAgain(){
-        System.out.println("Do you want to play another round? yes/no");
+        printScoreBoard();
+        System.out.println("\nDo you want to play another round? yes/no");
         String userInput = sc.nextLine();
 
         // Consume enter
@@ -136,6 +138,15 @@ public class Game {
         }
 
         return userInput.equalsIgnoreCase("yes");
+    }
+
+    public void increaseRoundsWon(int playerRoundsWon){
+        checkWinner().setRoundsWon(playerRoundsWon + 1);
+    }
+
+    public void printScoreBoard(){
+        System.out.println(player1.getName() + " has won " + player1.getRoundsWon() + " rounds.");
+        System.out.println(player2.getName() + " has won " + player2.getRoundsWon() + " rounds.");
     }
 
     public void playerMakeMove(){
@@ -172,14 +183,4 @@ public class Game {
 
 
 // TO DO:
-// Write out a tie and not just game over when the board is full !!!!
-// Spelet ska räkna hur många vinster varje spelare har
 // If invalid input return try again
-// Check players winning scores
-
-//En till av nedanstående
-//****** Spelet ska fråga om spelarnas namn och vid varje drag skriva ut vems tur det är
-//* Spelet ska räkna hur många vinster varje spelare har
-//* Indata från användaren skall korrekt felhanteras så spelet varken kraschar eller att andra fel uppstår
-//****** Under projektet har Git använts kontinuerlig och versionshistorik finns tillgänglig i den slutgiltiga inlämningen
-
