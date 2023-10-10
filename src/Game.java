@@ -61,12 +61,17 @@ public class Game {
                     writeOutBoard();
                     System.out.println("CONGRATULATIONS " + checkWinner() + ", you won this round!");
                 }
+                if (gameOver() && checkWinner() == null) {
+                    writeOutBoard();
+                    System.out.println("It's a tie! No one wins this round.");
+                }
                 switchPlayer();
             } else {
                 System.out.println(invalidInput());
             }
         }
-        System.out.println(" - Game over! - ");
+        System.out.println("\n - Game over! - \n");
+
     }
 
     public Player checkWinner() {
@@ -124,6 +129,12 @@ public class Game {
     public boolean playAgain(){
         System.out.println("Do you want to play another round? yes/no");
         String userInput = sc.nextLine();
+
+        // Consume enter
+        if (userInput.equalsIgnoreCase("yes")) {
+            sc.nextLine();
+        }
+
         return userInput.equalsIgnoreCase("yes");
     }
 
