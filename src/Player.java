@@ -3,11 +3,6 @@ public class Player {
     private char symbol;
     private int roundsWon = 0;
 
-    public Player(String name, char symbol) {
-        this.name = name;
-        this.symbol = symbol;
-    }
-
     public Player(char symbol) {
         this.symbol = symbol;
     }

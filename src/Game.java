@@ -13,33 +13,21 @@ public class Game {
         initGame();
         do {
             runGame();
-            resetGame();
+            resetBoard();
         } while (playAgain());  // Waits for two ENTER, fix it!!
     }
 
-    // Starts a new game and setting names to players and choosing size of board
+    // Initializing new game, name players and choose size of board
     public void initGame() {
+        System.out.println("°°°°°°°°° N E W   G A M E °°°°°°°°°");
         players.add(player1);
         players.add(player2);
-
-        System.out.println("°°°°°°°°° N E W   G A M E °°°°°°°°°");
-
-        System.out.println("ENTER the name of player 1: ");
-        String name = sc.nextLine();
-        player1.setName(name);
-
-        System.out.println("ENTER the name of player 2: ");
-        String name2 = sc.nextLine();
-        player2.setName(name2);
-
-        System.out.println("How many rows & columns do you want, 3, 4 or 5? ");
-        int sizeOfBoard = sc.nextInt();
-        board = new Board(sizeOfBoard, sizeOfBoard);
-        sc.nextLine();
+        inputPlayerNames();
+        inputBoardSize();
         System.out.println("""
                 Perfect, here's your board.
                 When making a move: remember to write which column followed by row, ex. A1.
-                
+                                
                 Start by pressing ENTER!""");
     }
 
@@ -48,34 +36,30 @@ public class Game {
         System.out.println("Let's go " + player1 + " & " + player2 + "! May the best player win :) \n");
         while (!gameOver() && checkWinner() == null) {
             writeOutBoard();
-            // Make methods for makeMove and implement here
-            System.out.println(currentPlayer.getName() + ", ENTER your move:");
-            String chosenPlacement = sc.nextLine();
-            int chosenColumn = (int) (Character.toUpperCase(chosenPlacement.charAt(0)) - 65);
-            int chosenRow = Character.getNumericValue(chosenPlacement.charAt(1) - 1);
-            // If the chosen cell is empty, put players symbol in it
-            if (isValidMove(chosenRow, chosenColumn)) {
-                board.setCellValue(chosenRow, chosenColumn, currentPlayer.getSymbol());
-                // If symbol is set check if there's any win before continuing
-                if (checkWinner() != null) {
-                    writeOutBoard();
-                    System.out.println("CONGRATULATIONS " + checkWinner() + ", you won this round!");
-                    increaseRoundsWon(checkWinner().getRoundsWon());
-                }
-                if (gameOver() && checkWinner() == null) {
-                    writeOutBoard();
-                    System.out.println("It's a tie! No one wins this round.");
-                }
-                switchPlayer();
-            } else {
-                System.out.println(invalidInput());
-            }
+            makeMove();
         }
         System.out.println("\n - Game over! - \n");
 
     }
 
+    public void inputPlayerNames() {
+        for (int i = 1; i < 3; i++) {
+            System.out.println("ENTER the name of player " + i + ":");
+            String name = sc.nextLine();
+            currentPlayer.setName(name);
+            switchPlayer();
+        }
+    }
+
+    public void inputBoardSize() {
+        System.out.println("How many rows & columns do you want, 3, 4 or 5? ");
+        int sizeOfBoard = sc.nextInt();
+        board = new Board(sizeOfBoard, sizeOfBoard);
+        sc.nextLine();
+    }
+
     public Player checkWinner() {
+
         // Check if there's a winning combo of symbols for all players in the game
         for (Player player : players) {
             char playerSymbol = player.getSymbol();
@@ -123,11 +107,12 @@ public class Game {
             currentPlayer = player1;
         }
     }
-    public void writeOutBoard(){
+
+    public void writeOutBoard() {
         board.layout();
     }
 
-    public boolean playAgain(){
+    public boolean playAgain() {
         printScoreBoard();
         System.out.println("\nDo you want to play another round? yes/no");
         String userInput = sc.nextLine();
@@ -140,23 +125,44 @@ public class Game {
         return userInput.equalsIgnoreCase("yes");
     }
 
-    public void increaseRoundsWon(int playerRoundsWon){
+    public void increaseRoundsWon(int playerRoundsWon) {
         checkWinner().setRoundsWon(playerRoundsWon + 1);
     }
 
-    public void printScoreBoard(){
+    public void printScoreBoard() {
         System.out.println(player1.getName() + " has won " + player1.getRoundsWon() + " rounds.");
         System.out.println(player2.getName() + " has won " + player2.getRoundsWon() + " rounds.");
     }
 
-    public void playerMakeMove(){
+    public void makeMove() {
         System.out.println(currentPlayer.getName() + ", ENTER your move:");
         String chosenPlacement = sc.nextLine();
-        int chosenColumn = (int) (Character.toUpperCase(chosenPlacement.charAt(0)) - 65);
+        int chosenColumn = (Character.toUpperCase(chosenPlacement.charAt(0)) - 65);
         int chosenRow = Character.getNumericValue(chosenPlacement.charAt(1) - 1);
+        // If the chosen cell is empty, put players symbol in it
+        if (isValidMove(chosenRow, chosenColumn)) {
+            board.setCellValue(chosenRow, chosenColumn, currentPlayer.getSymbol());
+            checkOutcome();
+            switchPlayer();
+        } else {
+            System.out.println(invalidInput());
+        }
     }
 
-    public void resetGame(){
+    public void checkOutcome(){
+        // If symbol is set check if there's any win before continuing
+        if (checkWinner() != null) {
+            writeOutBoard();
+            System.out.println("CONGRATULATIONS " + checkWinner() + ", you won this round!");
+            increaseRoundsWon(checkWinner().getRoundsWon());
+        }
+        if (gameOver() && checkWinner() == null) {
+            writeOutBoard();
+            System.out.println("It's a tie! No one wins this round.");
+        }
+    }
+
+    public void resetBoard() {
         board.defaultCellValue();
     }
 
@@ -184,3 +190,5 @@ public class Game {
 
 // TO DO:
 // If invalid input return try again
+// If userinput = no when asking if more rounds, end game
+// Figure out how to consume enter when user answers if more rounds

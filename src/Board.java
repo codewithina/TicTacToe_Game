@@ -3,6 +3,7 @@ public class Board {
     private int rows;
     private char[][] dynamicBoard;
 
+    //Creates a new dynamicboard with given size and setting default value and layout
     public Board(int rows, int columns) {
         dynamicBoard = new char[rows][columns];
         this.rows = rows;
@@ -12,6 +13,7 @@ public class Board {
     }
 
     public void defaultCellValue(){
+        // For every cell on the board fill with default value space
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
                 dynamicBoard[i][j] = ' ';
@@ -19,22 +21,24 @@ public class Board {
         }
     }
     public void layout() {
+        // Line that repeats as many times as board rows for dynamic board
         String line = "------".repeat(rows);
         int count = 1;
 
-        //Build more letters depending on size of board
+        //Building letters depending on size of board, ASCII value increases for every loop
         StringBuilder letters = new StringBuilder("   ");
         for (int i = 0; i < rows; i++) {
-            //'A'+i = 65 at first and therefor writes out A
             letters.append((char) ('A' + i)).append("     ");
         }
-        System.out.println(letters.toString());
+        System.out.println(letters);
 
+        // Building line for each row and "walls" in every cell around cell value
         for (int i = 0; i < rows; i++) {
             System.out.println(line);
             for (int j = 0; j < columns; j++) {
                 System.out.print("|" + "  " + dynamicBoard[i][j] + "  ");
             }
+            // Identify every row with numbers
             System.out.println("|  " + count++);
         }
         System.out.println(line);
