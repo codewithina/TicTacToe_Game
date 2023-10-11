@@ -14,7 +14,7 @@ public class Game {
         do {
             runGame();
             resetBoard();
-        } while (playAgain());  // Waits for two ENTER, fix it!!
+        } while (playAgain());
     }
 
     // Initializing new game, name players and choose size of board
@@ -32,14 +32,12 @@ public class Game {
     }
 
     public void runGame() {
-        sc.nextLine();
         System.out.println("Let's go " + player1 + " & " + player2 + "! May the best player win :) \n");
         while (!gameOver() && checkWinner() == null) {
             writeOutBoard();
             makeMove();
         }
         System.out.println("\n - Game over! - \n");
-
     }
 
     public void inputPlayerNames() {
@@ -114,15 +112,18 @@ public class Game {
 
     public boolean playAgain() {
         printScoreBoard();
-        System.out.println("\nDo you want to play another round? yes/no");
-        String userInput = sc.nextLine();
+        while (true) {
+            System.out.println("Do you want to play another round? yes/no");
+            String userInput = sc.nextLine();
 
-        // Consume enter
-        if (userInput.equalsIgnoreCase("yes")) {
-            sc.nextLine();
+            if (userInput.equalsIgnoreCase("yes")) {
+                return true;
+            } else if (userInput.equalsIgnoreCase("no")) {
+                return false;
+            } else {
+                invalidInput();
+            }
         }
-
-        return userInput.equalsIgnoreCase("yes");
     }
 
     public void increaseRoundsWon(int playerRoundsWon) {
@@ -131,7 +132,7 @@ public class Game {
 
     public void printScoreBoard() {
         System.out.println(player1.getName() + " has won " + player1.getRoundsWon() + " rounds.");
-        System.out.println(player2.getName() + " has won " + player2.getRoundsWon() + " rounds.");
+        System.out.println(player2.getName() + " has won " + player2.getRoundsWon() + " rounds.\n");
     }
 
     public void makeMove() {
@@ -145,11 +146,11 @@ public class Game {
             checkOutcome();
             switchPlayer();
         } else {
-            System.out.println(invalidInput());
+            invalidInput();
         }
     }
 
-    public void checkOutcome(){
+    public void checkOutcome() {
         // If symbol is set check if there's any win before continuing
         if (checkWinner() != null) {
             writeOutBoard();
@@ -166,8 +167,8 @@ public class Game {
         board.defaultCellValue();
     }
 
-    public String invalidInput() {
-        return "Invalid input. Please try again.\n";
+    public void invalidInput() {
+        System.out.println("Invalid input. Please try again.\n");
     }
 
     public boolean isValidMove(int row, int col) {
