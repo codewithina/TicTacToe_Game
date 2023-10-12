@@ -1,11 +1,14 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /* TODO
 *   - Exception handling -
 *   CHECK!! Input board size
-*   Input names
+*   CHECK!! Input names
+*   Input names is spaces??
 *   Choose menu alternative
-*   CHECK!! Make a move */
+*   CHECK!! Make a move
+*   CHECK!! Play again? */
 
 public class Main {
     private static Scanner sc = new Scanner(System.in);
@@ -18,19 +21,24 @@ public class Main {
                           - Good luck! -1""");
 
         while (true) {
-            menuChoices();
-            int choice = sc.nextInt();
-            switch (choice) {
-                case 1:
-                    Game game = new Game();
-                    break;
-                case 2:
-                    readRules();
-                    break;
-                case 3:
-                    return;
-                default:
-                    System.out.println("Invalid input. Please try again.");
+            try {
+                menuChoices();
+                int choice = sc.nextInt();
+                switch (choice) {
+                    case 1:
+                        Game game = new Game();
+                        break;
+                    case 2:
+                        readRules();
+                        break;
+                    case 3:
+                        return;
+                    default:
+                        System.out.println("Invalid choice. Please try again.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid choice. Please try again.");
+                sc.nextLine();
             }
         }
 

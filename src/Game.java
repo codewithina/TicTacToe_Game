@@ -44,22 +44,29 @@ public class Game {
     public void inputPlayerNames() {
         for (int i = 1; i < 3; i++) {
             System.out.println("ENTER the name of player " + i + ":");
-            String name = sc.nextLine();
-            currentPlayer.setName(name);
-            switchPlayer();
+                String name = sc.nextLine();
+                if (name.isEmpty()) {
+                    invalidInputPrint();
+                    i--; // Rewind the iteration
+                } else {
+                    currentPlayer.setName(name);
+                    switchPlayer();
+                }
         }
     }
 
     public void inputBoardSize() {
-        boolean isValidInput = false;
-
-        while (!isValidInput) {
-            System.out.println("How many rows & columns do you want? ");
+        while (true) {
             try {
+                System.out.println("How many rows & columns do you want? ");
                 int sizeOfBoard = sc.nextInt();
-                board = new Board(sizeOfBoard, sizeOfBoard);
                 sc.nextLine();
-                isValidInput = true;
+                if (sizeOfBoard < 3) {
+                    invalidInputPrint();
+                } else {
+                    board = new Board(sizeOfBoard, sizeOfBoard);
+                    break;
+                }
             } catch (InputMismatchException e) {
                 invalidInputPrint();
                 sc.nextLine();
