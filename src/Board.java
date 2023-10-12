@@ -3,13 +3,12 @@ public class Board {
     private int rows;
     private char[][] dynamicBoard;
 
-    //Creates a new dynamicboard with given size and setting default value and layout
+    //Creates a new dynamic board with given size and setting default value and layout
     public Board(int rows, int columns) {
         dynamicBoard = new char[rows][columns];
         this.rows = rows;
         this.columns = columns;
         defaultCellValue();
-        layout();
     }
 
     public void defaultCellValue(){

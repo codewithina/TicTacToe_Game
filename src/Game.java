@@ -1,6 +1,10 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/* TODO:
+    If invalid input return try again
+    Control board size input from user > 3 and less than ?? */
+
 public class Game {
     private Scanner sc = new Scanner(System.in);
     private Player player1 = new Player('o');
@@ -25,10 +29,10 @@ public class Game {
         inputPlayerNames();
         inputBoardSize();
         System.out.println("""
+                
                 Perfect, here's your board.
                 When making a move: remember to write which column followed by row, ex. A1.
-                                
-                Start by pressing ENTER!""");
+                """);
     }
 
     public void runGame() {
@@ -50,10 +54,30 @@ public class Game {
     }
 
     public void inputBoardSize() {
-        System.out.println("How many rows & columns do you want, 3, 4 or 5? ");
+        System.out.println("How many rows & columns do you want? ");
         int sizeOfBoard = sc.nextInt();
         board = new Board(sizeOfBoard, sizeOfBoard);
         sc.nextLine();
+    }
+
+    public void makeMove() {
+        System.out.println(currentPlayer.getName() + ", ENTER your move:");
+        String chosenPlacement = sc.nextLine();
+
+        try {
+            int chosenColumn = (Character.toUpperCase(chosenPlacement.charAt(0)) - 65);
+            int chosenRow = Character.getNumericValue(chosenPlacement.charAt(1) - 1);
+            // If the chosen cell is empty, put players symbol in it
+            if (isValidMove(chosenRow, chosenColumn)) {
+                board.setCellValue(chosenRow, chosenColumn, currentPlayer.getSymbol());
+                checkOutcome();
+                switchPlayer();
+            } else {
+                System.out.println("\nThe chosen placement is already taken, please choose an empty one.\n");
+            }
+        } catch (StringIndexOutOfBoundsException | NumberFormatException | ArrayIndexOutOfBoundsException e){
+            System.out.println("\nInvalid input. Please enter a valid move in the format 'A1', 'B2', etc.\n");
+        }
     }
 
     public Player checkWinner() {
@@ -135,20 +159,6 @@ public class Game {
         System.out.println(player2.getName() + " has won " + player2.getRoundsWon() + " rounds.\n");
     }
 
-    public void makeMove() {
-        System.out.println(currentPlayer.getName() + ", ENTER your move:");
-        String chosenPlacement = sc.nextLine();
-        int chosenColumn = (Character.toUpperCase(chosenPlacement.charAt(0)) - 65);
-        int chosenRow = Character.getNumericValue(chosenPlacement.charAt(1) - 1);
-        // If the chosen cell is empty, put players symbol in it
-        if (isValidMove(chosenRow, chosenColumn)) {
-            board.setCellValue(chosenRow, chosenColumn, currentPlayer.getSymbol());
-            checkOutcome();
-            switchPlayer();
-        } else {
-            invalidInput();
-        }
-    }
 
     public void checkOutcome() {
         // If symbol is set check if there's any win before continuing
@@ -168,7 +178,7 @@ public class Game {
     }
 
     public void invalidInput() {
-        System.out.println("Invalid input. Please try again.\n");
+        System.out.println("\nInvalid input. Please try again.\n");
     }
 
     public boolean isValidMove(int row, int col) {
@@ -187,9 +197,3 @@ public class Game {
     }
 
 }
-
-
-// TO DO:
-// If invalid input return try again
-// If userinput = no when asking if more rounds, end game
-// Figure out how to consume enter when user answers if more rounds

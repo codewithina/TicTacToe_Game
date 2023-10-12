@@ -1,5 +1,8 @@
 import java.util.Scanner;
 
+/* TODO
+*   Exception handling */
+
 public class Main {
     private static Scanner sc = new Scanner(System.in);
 
@@ -13,7 +16,6 @@ public class Main {
         while (true) {
             menuChoices();
             int choice = sc.nextInt();
-            sc.nextLine();
             switch (choice) {
                 case 1:
                     Game game = new Game();
