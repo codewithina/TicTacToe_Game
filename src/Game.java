@@ -45,7 +45,7 @@ public class Game {
         for (int i = 1; i < 3; i++) {
             System.out.println("ENTER the name of player " + i + ":");
                 String name = sc.nextLine();
-                if (name.isEmpty()) {
+                if (name.trim().isEmpty()) { // Trim spaces to check if empty
                     invalidInputPrint();
                     i--; // Rewind the iteration
                 } else {
