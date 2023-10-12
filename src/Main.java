@@ -1,7 +1,11 @@
 import java.util.Scanner;
 
 /* TODO
-*   Exception handling */
+*   - Exception handling -
+*   CHECK!! Input board size
+*   Input names
+*   Choose menu alternative
+*   CHECK!! Make a move */
 
 public class Main {
     private static Scanner sc = new Scanner(System.in);

@@ -1,9 +1,6 @@
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
-
-/* TODO:
-    If invalid input return try again
-    Control board size input from user > 3 and less than ?? */
 
 public class Game {
     private Scanner sc = new Scanner(System.in);
@@ -29,7 +26,7 @@ public class Game {
         inputPlayerNames();
         inputBoardSize();
         System.out.println("""
-                
+                                
                 Perfect, here's your board.
                 When making a move: remember to write which column followed by row, ex. A1.
                 """);
@@ -54,10 +51,20 @@ public class Game {
     }
 
     public void inputBoardSize() {
-        System.out.println("How many rows & columns do you want? ");
-        int sizeOfBoard = sc.nextInt();
-        board = new Board(sizeOfBoard, sizeOfBoard);
-        sc.nextLine();
+        boolean isValidInput = false;
+
+        while (!isValidInput) {
+            System.out.println("How many rows & columns do you want? ");
+            try {
+                int sizeOfBoard = sc.nextInt();
+                board = new Board(sizeOfBoard, sizeOfBoard);
+                sc.nextLine();
+                isValidInput = true;
+            } catch (InputMismatchException e) {
+                invalidInputPrint();
+                sc.nextLine();
+            }
+        }
     }
 
     public void makeMove() {
@@ -75,7 +82,7 @@ public class Game {
             } else {
                 System.out.println("\nThe chosen placement is already taken, please choose an empty one.\n");
             }
-        } catch (StringIndexOutOfBoundsException | NumberFormatException | ArrayIndexOutOfBoundsException e){
+        } catch (StringIndexOutOfBoundsException | NumberFormatException | ArrayIndexOutOfBoundsException e) {
             System.out.println("\nInvalid input. Please enter a valid move in the format 'A1', 'B2', etc.\n");
         }
     }
@@ -145,7 +152,7 @@ public class Game {
             } else if (userInput.equalsIgnoreCase("no")) {
                 return false;
             } else {
-                invalidInput();
+                invalidInputPrint();
             }
         }
     }
@@ -177,7 +184,7 @@ public class Game {
         board.defaultCellValue();
     }
 
-    public void invalidInput() {
+    public void invalidInputPrint() {
         System.out.println("\nInvalid input. Please try again.\n");
     }
 
