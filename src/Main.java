@@ -1,15 +1,6 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-/* TODO
-*   - Exception handling -
-*   CHECK!! Input board size
-*   CHECK!! Input names
-*   Input names is spaces??
-*   Choose menu alternative
-*   CHECK!! Make a move
-*   CHECK!! Play again? */
-
 public class Main {
     private static Scanner sc = new Scanner(System.in);
 
@@ -24,6 +15,7 @@ public class Main {
             try {
                 menuChoices();
                 int choice = sc.nextInt();
+                sc.nextLine();
                 switch (choice) {
                     case 1:
                         Game game = new Game();
